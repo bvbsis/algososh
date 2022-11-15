@@ -28,20 +28,19 @@ export const FibonacciPage: React.FC = () => {
 
   const onButtonClick = useCallback(async () => {
     setIsLoading(true);
-    let arr: number[] = [];
-    let first = 1;
-    let second = 1;
-    setResult([first]);
-    for (let i = 0; i <= inputValue; i++) {
-      arr = [...arr, second];    
-      setResult([...arr]);  
+    let initial = 1;
+    let sum = initial;
+    let arr: number[] = [initial];
+    setResult(arr);
+    for (let i = 0; i < inputValue; i++) {
+      arr = [...arr, sum];
       await delay(500);
-      const temp = first;
-      first = second;
-      second = temp + second;
+      setResult(arr);
+      const temp = initial;
+      initial = sum;
+      sum = temp + sum;
     }
     setIsLoading(false);
-    console.log(inputValue);
   }, [inputValue]);
 
   return (
@@ -65,10 +64,18 @@ export const FibonacciPage: React.FC = () => {
       </div>
       <div
         style={{ justifyContent: justifyDigitsContainer }}
-        className={styles.lettersContainer}
+        className={styles.digitsContainer}
       >
-        {result.map((e, index) => (
-          <Circle letter={`${e}`} key={index} />
+        {result.slice(0, 10).map((e, index) => (
+          <Circle letter={`${e}`} key={index} index={index} />
+        ))}
+      </div>
+      <div
+        style={{ justifyContent: justifyDigitsContainer }}
+        className={styles.digitsContainer}
+      >
+        {result.slice(10, 20).map((e, index) => (
+          <Circle letter={`${e}`} key={index} index={index + 10} />
         ))}
       </div>
     </SolutionLayout>
