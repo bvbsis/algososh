@@ -1,0 +1,15 @@
+.inputContainer {
+  display: flex;
+  width: 522px;
+  gap: 12px;
+  margin: auto;
+}
+
+.lettersContainer {
+  display: flex;
+  width: 944px;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 74px auto auto;
+
+}
