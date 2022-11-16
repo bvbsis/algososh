@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { ChangeEvent, useCallback, useState } from "react";
 import { ElementStates } from "../../types/element-states";
 import { delay } from "../../utils/delay";
 import { swap } from "../../utils/swap";
@@ -15,7 +15,7 @@ export const StringComponent: React.FC = () => {
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const onInputChange = useCallback((e) => {
+  const onInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   }, []);
 
