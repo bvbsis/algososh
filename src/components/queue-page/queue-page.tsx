@@ -17,53 +17,76 @@ const initialQueue: [string, number, ElementStates][] = [
   ["", 6, ElementStates.Default],
 ];
 
+interface IQueue<T> {
+  push: (item: T) => void;
+  pop: () => void;
+  clear: () => void;
+  getLength: () => number;
+}
+
+class Queue<T> implements IQueue<T> {
+  container: T[] = [];
+  initialQueue: T[] = [];
+
+  constructor(initialQueue: T[]) {
+    this.container = [...initialQueue];
+    this.initialQueue = initialQueue;
+  }
+
+  push = (item: T) => {
+    this.container.push(item);
+  };
+
+  pop = () => {
+    this.container.pop();
+  };
+
+  clear = () => {
+    this.container = [...this.initialQueue];
+  };
+
+  getLength = () => this.container.length;
+}
+
 export const QueuePage: React.FC = () => {
   const [item, setItem] = useState<string>("");
-  const [queue, setQueue] = useState([...initialQueue]);
+  const [queue, setQueue] = useState(
+    new Queue<[string, number, ElementStates]>(initialQueue)
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [head, setHead] = useState<number>(-1);
   const [tail, setTail] = useState<number>(-1);
+  console.log(queue.initialQueue, queue.container)
 
   const addToQueue = async () => {
     setIsLoading(true);
-    let newQueue = [...queue];
-    const { length } = newQueue;
 
     if (head === tail && head === -1) {
-      newQueue[0] = ["", 0, ElementStates.Changing];
-      setQueue([...newQueue]);
+      queue.container[0] = ["", 0, ElementStates.Changing];
       await delay(500);
-      newQueue[0] = [item, 0, ElementStates.Changing];
-      setQueue([...newQueue]);
+      queue.container[0] = [item, 0, ElementStates.Changing];
       setHead(0);
       setTail(0);
       setItem("");
       await delay(500);
-      newQueue[0] = [item, 0, ElementStates.Default];
-      setQueue([...newQueue]);
-    } else if (-1 < tail && tail < length - 1) {
-      if (tail === head && newQueue[head][0] === "") {
-        newQueue[head] = ["", head, ElementStates.Changing];
-        setQueue([...newQueue]);
+      queue.container[0] = [item, 0, ElementStates.Default];
+    } else if (-1 < tail && tail < queue.getLength() - 1) {
+      if (tail === head && queue.container[head][0] === "") {
+        queue.container[head] = ["", head, ElementStates.Changing];
         await delay(500);
-        newQueue[head] = [item, head, ElementStates.Changing];
-        setQueue([...newQueue]);
+        queue.container[head] = [item, head, ElementStates.Changing];
         setTail(head);
         setItem("");
         await delay(500);
-        newQueue[head] = [item, head, ElementStates.Default];
-        setQueue([...newQueue]);
+        queue.container[head] = [item, head, ElementStates.Default];
       } else {
-        newQueue[tail + 1] = ["", tail + 1, ElementStates.Changing];
-        setQueue([...newQueue]);
+        queue.container[tail + 1] = ["", tail + 1, ElementStates.Changing];
         await delay(500);
-        newQueue[tail + 1] = [item, tail + 1, ElementStates.Changing];
-        setQueue([...newQueue]);
+        queue.container[tail + 1] = [item, tail + 1, ElementStates.Changing];
         setTail((prevState) => prevState + 1);
         setItem("");
         await delay(500);
-        newQueue[tail + 1] = [item, tail + 1, ElementStates.Default];
-        setQueue([...newQueue]);
+        queue.container[tail + 1] = [item, tail + 1, ElementStates.Default];
       }
     }
     setIsLoading(false);
@@ -71,29 +94,35 @@ export const QueuePage: React.FC = () => {
 
   const deleteFromQueue = async () => {
     setIsLoading(true);
-    let newQueue = [...queue];
     if (head !== -1 && tail !== -1 && head !== tail) {
-      newQueue[head] = [newQueue[head][0], head, ElementStates.Changing];
-      setQueue([...newQueue]);
+      queue.container[head] = [
+        queue.container[head][0],
+        head,
+        ElementStates.Changing,
+      ];
       await delay(500);
       setHead((prevState) => prevState + 1);
-      newQueue[head] = ["", head, ElementStates.Default];
-      setQueue([...newQueue]);
+      queue.container[head] = ["", head, ElementStates.Default];
     } else if (head === tail && head !== -1) {
-      newQueue[head] = [newQueue[head][0], head, ElementStates.Changing];
-      setQueue([...newQueue]);
+      queue.container[head] = [
+        queue.container[head][0],
+        head,
+        ElementStates.Changing,
+      ];
       await delay(500);
-      newQueue[head] = ["", head, ElementStates.Default];
-      setQueue([...newQueue]);
+      queue.container[head] = ["", head, ElementStates.Default];
     }
 
     setIsLoading(false);
   };
 
-  const clearQueue = () => {
-    setQueue([...initialQueue]);
+  const clearQueue = async () => {
+    setIsLoading(true);
+    await delay(0);
+    queue.clear();
     setHead(-1);
     setTail(-1);
+    setIsLoading(false);
   };
 
   const onInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -114,7 +143,7 @@ export const QueuePage: React.FC = () => {
         <Button
           style={{ marginRight: 12 }}
           onClick={addToQueue}
-          disabled={!item || tail >= 6 || head === queue.length - 1}
+          disabled={!item || tail >= 6 || head === queue.getLength() - 1}
           text="Добавить"
         />
         <Button
@@ -131,7 +160,7 @@ export const QueuePage: React.FC = () => {
       </div>
 
       <div className={styles.queueContainer}>
-        {queue.map((e, index) =>
+        {queue.container.map((e, index) =>
           index === tail && index === head && e[0] !== "" ? (
             <Circle
               head="head"
