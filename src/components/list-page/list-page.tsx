@@ -59,6 +59,12 @@ export const ListPage: React.FC = () => {
   }, []);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (
+      e.target.name === "index" &&
+      (Number(e.target.value) < 0 || Number(e.target.value) > listArray.length)
+    ) {
+      return;
+    }
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
@@ -405,7 +411,7 @@ export const ListPage: React.FC = () => {
             isLoading.isLoading ||
             inputs.index === "" ||
             !listArray.length ||
-            Number(inputs.index) > listArray.length - 1||
+            Number(inputs.index) > listArray.length - 1 ||
             Number(inputs.index) < 0
           }
           onClick={deleteByIndex}

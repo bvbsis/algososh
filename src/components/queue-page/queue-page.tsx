@@ -1,65 +1,36 @@
 import React, { ChangeEvent, useCallback, useState } from "react";
+import { initialQueue } from "../../constants/queue";
 import { ElementStates } from "../../types/element-states";
 import { delay } from "../../utils/delay";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
+import { Queue } from "./queue";
 import styles from "./queue-page.module.css";
-
-const initialQueue: [string, number, ElementStates][] = [
-  ["", 0, ElementStates.Default],
-  ["", 1, ElementStates.Default],
-  ["", 2, ElementStates.Default],
-  ["", 3, ElementStates.Default],
-  ["", 4, ElementStates.Default],
-  ["", 5, ElementStates.Default],
-  ["", 6, ElementStates.Default],
-];
-
-interface IQueue<T> {
-  push: (item: T) => void;
-  pop: () => void;
-  clear: () => void;
-  getLength: () => number;
-}
-
-class Queue<T> implements IQueue<T> {
-  container: T[] = [];
-  initialQueue: T[] = [];
-
-  constructor(initialQueue: T[]) {
-    this.container = [...initialQueue];
-    this.initialQueue = initialQueue;
-  }
-
-  push = (item: T) => {
-    this.container.push(item);
-  };
-
-  pop = () => {
-    this.container.pop();
-  };
-
-  clear = () => {
-    this.container = [...this.initialQueue];
-  };
-
-  getLength = () => this.container.length;
-}
 
 export const QueuePage: React.FC = () => {
   const [item, setItem] = useState<string>("");
   const [queue, setQueue] = useState(
     new Queue<[string, number, ElementStates]>(initialQueue)
   );
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<{
+    isLoading: boolean;
+    addToQueue: boolean;
+    deleteFromQueue: boolean;
+  }>({
+    isLoading: false,
+    addToQueue: false,
+    deleteFromQueue: false,
+  });
   const [head, setHead] = useState<number>(-1);
   const [tail, setTail] = useState<number>(-1);
-  console.log(queue.initialQueue, queue.container)
+  console.log(queue.initialQueue, queue.container);
 
   const addToQueue = async () => {
-    setIsLoading(true);
+    setIsLoading((prevState) => {
+      return { ...prevState, addToQueue: true, isLoading: true };
+    });
 
     if (head === tail && head === -1) {
       queue.container[0] = ["", 0, ElementStates.Changing];
@@ -89,11 +60,15 @@ export const QueuePage: React.FC = () => {
         queue.container[tail + 1] = [item, tail + 1, ElementStates.Default];
       }
     }
-    setIsLoading(false);
+    setIsLoading((prevState) => {
+      return { ...prevState, addToQueue: false, isLoading: false };
+    });
   };
 
   const deleteFromQueue = async () => {
-    setIsLoading(true);
+    setIsLoading((prevState) => {
+      return { ...prevState, deleteFromQueue: true, isLoading: true };
+    });
     if (head !== -1 && tail !== -1 && head !== tail) {
       queue.container[head] = [
         queue.container[head][0],
@@ -113,16 +88,16 @@ export const QueuePage: React.FC = () => {
       queue.container[head] = ["", head, ElementStates.Default];
     }
 
-    setIsLoading(false);
+    setIsLoading((prevState) => {
+      return { ...prevState, deleteFromQueue: false, isLoading: false };
+    });
   };
 
   const clearQueue = async () => {
-    setIsLoading(true);
     await delay(0);
     queue.clear();
     setHead(-1);
     setTail(-1);
-    setIsLoading(false);
   };
 
   const onInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -135,7 +110,7 @@ export const QueuePage: React.FC = () => {
         <Input
           extraClass={styles.input}
           value={item}
-          disabled={isLoading}
+          disabled={isLoading.isLoading}
           onChange={onInputChange}
           isLimitText={true}
           maxLength={4}
@@ -143,19 +118,26 @@ export const QueuePage: React.FC = () => {
         <Button
           style={{ marginRight: 12 }}
           onClick={addToQueue}
-          disabled={!item || tail >= 6 || head === queue.getLength() - 1}
+          disabled={
+            !item ||
+            tail >= 6 ||
+            head === queue.getLength() - 1 ||
+            isLoading.isLoading
+          }
+          isLoader={isLoading.addToQueue}
           text="Добавить"
         />
         <Button
           style={{ marginRight: 80 }}
           onClick={deleteFromQueue}
-          disabled={isLoading || tail === -1}
+          disabled={isLoading.isLoading || tail === -1}
+          isLoader={isLoading.deleteFromQueue}
           text="Удалить"
         />
         <Button
           onClick={clearQueue}
           text="Очистить"
-          disabled={isLoading || tail === -1}
+          disabled={isLoading.isLoading || tail === -1}
         />
       </div>
 
