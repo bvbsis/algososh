@@ -1,0 +1,19 @@
+.inputContainer {
+  display: flex;
+  align-items: center;
+  width: 924px;
+  margin: auto auto 48px;
+}
+
+.marginLeft40 {
+  margin-left: 40px;
+}
+
+.arrayContainer {
+  display: flex;
+  align-items: flex-end;
+  width: fit-content;
+  height: 348px;
+  gap: 10px;
+  margin: auto;
+}

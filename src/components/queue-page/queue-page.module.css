@@ -1,0 +1,17 @@
+.inputContainer {
+  display: flex;
+  width: 829px;
+  margin: auto auto 52px;
+}
+
+.queueContainer {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  gap: 16px;
+}
+
+.input {
+  width: 377px;
+  margin-right: 12px;
+}

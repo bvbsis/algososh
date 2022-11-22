@@ -1,0 +1,15 @@
+.inputContainer {
+  display: flex;
+  width: 522px;
+  gap: 12px;
+  margin: auto auto 74px;
+}
+
+.digitsContainer {
+  display: flex;
+  width: 944px;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: auto auto 48px;
+
+}
