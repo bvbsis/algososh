@@ -36,7 +36,7 @@ export const SortingPage: React.FC = () => {
   }, []);
 
   const bubbleSort = useCallback(
-    async (direction) => {
+    async (direction: Direction) => {
       setIsLoading(true);
       let arr = array;
       let tail = arr.length - 1;
@@ -72,7 +72,7 @@ export const SortingPage: React.FC = () => {
   );
 
   const selectionSort = useCallback(
-    async (direction) => {
+    async (direction: Direction) => {
       setIsLoading(true);
       const arr = array;
       const { length } = arr;

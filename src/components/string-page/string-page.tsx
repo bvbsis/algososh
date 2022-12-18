@@ -6,7 +6,7 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import styles from "./string.module.css";
+import styles from "./string-page.module.css";
 
 export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
