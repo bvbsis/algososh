@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import { delay } from "../../utils/delay";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
@@ -7,23 +7,23 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import styles from "./fibonacci-page.module.css";
 
 export const FibonacciPage: React.FC = () => {
-  const [inputValue, setInputValue] = useState<number>(0);
+  const [inputValue, setInputValue] = useState<number | null>(null);
   const [result, setResult] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const justifyDigitsContainer = result.length <= 10 ? "center" : "initial";
 
   useEffect(() => {
-    if (inputValue > 19) {
+    if (inputValue && inputValue > 19) {
       setInputValue(19);
     }
-    if (inputValue < 0) {
+    if (inputValue && inputValue < 0) {
       setInputValue(0);
     }
   }, [inputValue]);
 
-  const onInputChange = useCallback((e) => {
-    setInputValue(e.target.value);
+  const onInputChange = useCallback((e: FormEvent<HTMLInputElement>) => {
+    setInputValue(Number(e.currentTarget.value));
   }, []);
 
   const onButtonClick = useCallback(async () => {
@@ -32,14 +32,17 @@ export const FibonacciPage: React.FC = () => {
     let sum = initial;
     let arr: number[] = [initial];
     setResult(arr);
-    for (let i = 0; i < inputValue; i++) {
-      arr = [...arr, sum];
-      await delay(500);
-      setResult(arr);
-      const temp = initial;
-      initial = sum;
-      sum = temp + sum;
+    if (inputValue) {
+      for (let i = 0; i < inputValue; i++) {
+        arr = [...arr, sum];
+        await delay(500);
+        setResult(arr);
+        const temp = initial;
+        initial = sum;
+        sum = temp + sum;
+      }
     }
+
     setIsLoading(false);
   }, [inputValue]);
 
@@ -51,7 +54,7 @@ export const FibonacciPage: React.FC = () => {
           placeholder="Введите число"
           max={19}
           type="number"
-          value={inputValue}
+          value={inputValue as number}
           onChange={onInputChange}
           disabled={isLoading}
         />
