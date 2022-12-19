@@ -1,8 +1,10 @@
 import circleState from "../constants/circleSate";
+import selectors from "../constants/selectors";
 
 const { initial } = circleState;
+const { elementClass, outlineClass, inputSelector } = selectors;
 
-describe("Recursion-page (String-page) :", () => {
+describe("Fibonacci page :", () => {
   before(() => {
     cy.visit("/fibonacci");
   });
@@ -12,7 +14,7 @@ describe("Recursion-page (String-page) :", () => {
   });
 
   it("should disable button when input is empty", () => {
-    cy.get(".text_type_input").as("input");
+    cy.get(inputSelector).as("input");
     cy.get("[class^=fibonacci-page_inputContainer__] > .text_type_button").as(
       "button"
     );
@@ -27,7 +29,7 @@ describe("Recursion-page (String-page) :", () => {
   });
 
   it("should generate fibonacci numbers", () => {
-    cy.get(".text_type_input").as("input");
+    cy.get(inputSelector).as("input");
     cy.get("[class^=fibonacci-page_inputContainer__] > .text_type_button").as(
       "button"
     );
@@ -37,16 +39,16 @@ describe("Recursion-page (String-page) :", () => {
     cy.get("@button").click();
     cy.get("@button").should("be.disabled");
     cy.get("[class^=fibonacci-page_digitsContainer__]").as("digitsContainer");
-    cy.get("@digitsContainer").find("[class^=circle_content__]").as("circles");
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@digitsContainer").find(elementClass).as("circles");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline")
       .eq(0)
       .should("have.css", "border", `4px solid ${initial}`)
       .contains("1");
 
     cy.tick(500);
-    cy.get("@digitsContainer").find("[class^=circle_content__]").as("circles");
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@digitsContainer").find(elementClass).as("circles");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline").each(($circleOutline) => {
       cy.wrap($circleOutline)
         .should("have.css", "border", `4px solid ${initial}`)
@@ -55,8 +57,8 @@ describe("Recursion-page (String-page) :", () => {
 
     cy.tick(500);
     cy.get("@button").should("be.disabled");
-    cy.get("@digitsContainer").find("[class^=circle_content__]").as("circles");
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@digitsContainer").find(elementClass).as("circles");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline").each(($circleOutline, index) => {
       switch (index) {
         case 0 || 1: {
@@ -79,8 +81,8 @@ describe("Recursion-page (String-page) :", () => {
 
     cy.tick(500);
     cy.get("@button").should("be.disabled");
-    cy.get("@digitsContainer").find("[class^=circle_content__]").as("circles");
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@digitsContainer").find(elementClass).as("circles");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline").each(($circleOutline, index) => {
       switch (index) {
         case 0 || 1: {
@@ -108,8 +110,8 @@ describe("Recursion-page (String-page) :", () => {
     });
 
     cy.tick(500);
-    cy.get("@digitsContainer").find("[class^=circle_content__]").as("circles");
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@digitsContainer").find(elementClass).as("circles");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
 
     cy.get("@circlesOutline").each(($circleOutline, index) => {
       switch (index) {
@@ -144,8 +146,8 @@ describe("Recursion-page (String-page) :", () => {
     });
 
     cy.tick(500);
-    cy.get("@digitsContainer").find("[class^=circle_content__]").as("circles");
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@digitsContainer").find(elementClass).as("circles");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline").each(($circleOutline, index) => {
       switch (index) {
         case 0 || 1: {
@@ -185,8 +187,8 @@ describe("Recursion-page (String-page) :", () => {
     });
 
     cy.tick(500);
-    cy.get("@digitsContainer").find("[class^=circle_content__]").as("circles");
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@digitsContainer").find(elementClass).as("circles");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline").each(($circleOutline, index) => {
       switch (index) {
         case 0 || 1: {
@@ -232,8 +234,8 @@ describe("Recursion-page (String-page) :", () => {
     });
 
     cy.tick(500);
-    cy.get("@digitsContainer").find("[class^=circle_content__]").as("circles");
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@digitsContainer").find(elementClass).as("circles");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline").each(($circleOutline, index) => {
       switch (index) {
         case 0 || 1: {

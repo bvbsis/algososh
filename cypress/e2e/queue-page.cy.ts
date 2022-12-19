@@ -1,6 +1,9 @@
 import circleState from "../constants/circleSate";
+import selectors from "../constants/selectors";
 
 const { initial, changing } = circleState;
+const { elementClass, outlineClass, inputSelector, queuePageButtonsSelector } =
+  selectors;
 
 describe("Queue-page :", () => {
   before(() => {
@@ -12,10 +15,8 @@ describe("Queue-page :", () => {
   });
 
   it('should disable "add" button when input is empty', () => {
-    cy.get(".text_type_input").eq(0).as("input");
-    cy.get("[class^=queue-page_inputContainer__] > .text_type_button")
-      .eq(0)
-      .as("button");
+    cy.get(inputSelector).eq(0).as("input");
+    cy.get(queuePageButtonsSelector).eq(0).as("button");
 
     cy.get("@input").should("have.value", "");
     cy.get("@button").should("be.disabled");
@@ -24,16 +25,14 @@ describe("Queue-page :", () => {
   });
 
   it("should add elements to the queue with animation", () => {
-    cy.get(".text_type_input").eq(0).as("input");
-    cy.get("[class^=queue-page_inputContainer__] > .text_type_button")
-      .eq(0)
-      .as("addButton");
+    cy.get(inputSelector).eq(0).as("input");
+    cy.get(queuePageButtonsSelector).eq(0).as("addButton");
     cy.get("[class^=queue-page_queueContainer__]").as("queueContainer");
 
     cy.clock();
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -112,9 +111,9 @@ describe("Queue-page :", () => {
     });
     cy.get("@input").type("aaaa");
     cy.get("@addButton").click();
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -193,9 +192,9 @@ describe("Queue-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -275,9 +274,9 @@ describe("Queue-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -358,9 +357,9 @@ describe("Queue-page :", () => {
 
     cy.get("@input").type("bbbb");
     cy.get("@addButton").click();
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -440,9 +439,9 @@ describe("Queue-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -523,9 +522,9 @@ describe("Queue-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -607,9 +606,9 @@ describe("Queue-page :", () => {
 
     cy.get("@input").type("cccc");
     cy.get("@addButton").click();
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -690,9 +689,9 @@ describe("Queue-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -774,9 +773,9 @@ describe("Queue-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -859,13 +858,9 @@ describe("Queue-page :", () => {
   });
 
   it("should delete an element from the queue with animation", () => {
-    cy.get(".text_type_input").eq(0).as("input");
-    cy.get("[class^=queue-page_inputContainer__] > .text_type_button")
-      .eq(0)
-      .as("addButton");
-    cy.get("[class^=queue-page_inputContainer__] > .text_type_button")
-      .eq(1)
-      .as("deleteButton");
+    cy.get(inputSelector).eq(0).as("input");
+    cy.get(queuePageButtonsSelector).eq(0).as("addButton");
+    cy.get(queuePageButtonsSelector).eq(1).as("deleteButton");
     cy.get("[class^=queue-page_queueContainer__]").as("queueContainer");
 
     cy.clock();
@@ -881,9 +876,9 @@ describe("Queue-page :", () => {
     cy.get("@addButton").click();
     cy.tick(500);
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -965,9 +960,9 @@ describe("Queue-page :", () => {
     });
 
     cy.get("@deleteButton").click();
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -1049,9 +1044,9 @@ describe("Queue-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -1133,9 +1128,9 @@ describe("Queue-page :", () => {
     });
 
     cy.get("@deleteButton").click();
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -1217,9 +1212,9 @@ describe("Queue-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -1301,9 +1296,9 @@ describe("Queue-page :", () => {
     });
 
     cy.get("@deleteButton").click();
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -1385,9 +1380,9 @@ describe("Queue-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -1470,13 +1465,9 @@ describe("Queue-page :", () => {
   });
 
   it("should clear the queue", () => {
-    cy.get(".text_type_input").eq(0).as("input");
-    cy.get("[class^=queue-page_inputContainer__] > .text_type_button")
-      .eq(0)
-      .as("addButton");
-    cy.get("[class^=queue-page_inputContainer__] > .text_type_button")
-      .eq(2)
-      .as("clearButton");
+    cy.get(inputSelector).eq(0).as("input");
+    cy.get(queuePageButtonsSelector).eq(0).as("addButton");
+    cy.get(queuePageButtonsSelector).eq(2).as("clearButton");
     cy.get("[class^=queue-page_queueContainer__]").as("queueContainer");
 
     cy.clock();
@@ -1492,9 +1483,9 @@ describe("Queue-page :", () => {
     cy.get("@addButton").click();
     cy.tick(500);
     cy.tick(500);
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -1575,10 +1566,10 @@ describe("Queue-page :", () => {
       }
     });
     cy.get("@clearButton").click();
-    cy.tick(0)
-    cy.get("@queueContainer").find("[class^=circle_content__]").as("circles");
+    cy.tick(0);
+    cy.get("@queueContainer").find(elementClass).as("circles");
     cy.get("@circles").each(($circle, index) => {
-      cy.wrap($circle).find("[class^=circle_circle__]").as("circleOutline");
+      cy.wrap($circle).find(outlineClass).as("circleOutline");
       switch (index) {
         case 0: {
           cy.get("@circleOutline").should(
@@ -1658,7 +1649,7 @@ describe("Queue-page :", () => {
         }
       }
     });
-    cy.get('@addButton').should('be.disabled');
-    cy.get('@clearButton').should('be.disabled');
+    cy.get("@addButton").should("be.disabled");
+    cy.get("@clearButton").should("be.disabled");
   });
 });

@@ -1,6 +1,8 @@
 import circleState from "../constants/circleSate";
+import selectors from "../constants/selectors";
 
 const { modified, initial, changing } = circleState;
+const { elementClass, outlineClass, inputSelector } = selectors;
 
 describe("Recursion-page (String-page) :", () => {
   before(() => {
@@ -12,7 +14,7 @@ describe("Recursion-page (String-page) :", () => {
   });
 
   it('should disable "reverse" button when input is empty', () => {
-    cy.get(".text_type_input").as("input");
+    cy.get(inputSelector).as("input");
     cy.get("[class^=string-page_inputContainer__] > .text_type_button").as(
       "button"
     );
@@ -24,7 +26,7 @@ describe("Recursion-page (String-page) :", () => {
   });
 
   it("should reverse a row with animation", () => {
-    cy.get(".text_type_input").as("input");
+    cy.get(inputSelector).as("input");
     cy.get("[class^=string-page_inputContainer__] > .text_type_button").as(
       "button"
     );
@@ -33,8 +35,8 @@ describe("Recursion-page (String-page) :", () => {
     cy.clock();
     cy.get("@input").type("hello");
     cy.get("@button").click();
-    cy.get("@lettersContainer").find("[class^=circle_content__]").as("circles");
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@lettersContainer").find(elementClass).as("circles");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline").each(($circleOutline, index) => {
       switch (index) {
         case 0: {
@@ -71,7 +73,7 @@ describe("Recursion-page (String-page) :", () => {
     });
 
     cy.tick(1000);
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline").each(($circleOutline, index) => {
       switch (index) {
         case 0: {
@@ -108,7 +110,7 @@ describe("Recursion-page (String-page) :", () => {
     });
 
     cy.tick(1000);
-    cy.get("@circles").find("[class^=circle_circle__]").as("circlesOutline");
+    cy.get("@circles").find(outlineClass).as("circlesOutline");
     cy.get("@circlesOutline").each(($circleOutline, index) => {
       switch (index) {
         case 0: {

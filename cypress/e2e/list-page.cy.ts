@@ -1,6 +1,14 @@
 import circleState from "../constants/circleSate";
+import selectors from "../constants/selectors";
 
 const { initial, changing, modified } = circleState;
+const {
+  elementClass,
+  outlineClass,
+  listElemenstSelector,
+  inputSelector,
+  listPageButtonsSelector,
+} = selectors;
 
 describe("List-page :", () => {
   before(() => {
@@ -12,17 +20,11 @@ describe("List-page :", () => {
   });
 
   it('should disable all "add" buttons when inputs are empty', () => {
-    cy.get(".text_type_input").eq(0).as("input");
-    cy.get(".text_type_input").eq(1).as("indexInput");
-    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-      .eq(0)
-      .as("addInHeadButton");
-    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-      .eq(1)
-      .as("addInTailButton");
-    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-      .eq(4)
-      .as("addByIndexButton");
+    cy.get(inputSelector).eq(0).as("input");
+    cy.get(inputSelector).eq(1).as("indexInput");
+    cy.get(listPageButtonsSelector).eq(0).as("addInHeadButton");
+    cy.get(listPageButtonsSelector).eq(1).as("addInTailButton");
+    cy.get(listPageButtonsSelector).eq(4).as("addByIndexButton");
 
     cy.get("@input").should("have.value", "");
     cy.get("@indexInput").should("have.value", "");
@@ -41,11 +43,9 @@ describe("List-page :", () => {
 
   it("should show initial list", () => {
     cy.get("[class^=list-page_listContainer__]").as("listContainer");
-    cy.get("@listContainer")
-      .find("[class^=circle_content__]")
-      .as("listElements");
+    cy.get("@listContainer").find(elementClass).as("listElements");
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("elementOutline");
+      cy.wrap($element).find(outlineClass).as("elementOutline");
       switch (index) {
         case 0: {
           cy.get("@elementOutline").should(
@@ -99,123 +99,107 @@ describe("List-page :", () => {
   });
 
   it("should add an element in head", () => {
-    cy.get(".text_type_input").eq(0).as("input");
-    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-      .eq(0)
-      .as("addInHeadButton");
+    cy.get(inputSelector).eq(0).as("input");
+    cy.get(listPageButtonsSelector).eq(0).as("addInHeadButton");
 
     cy.get("@input").type("1111");
     cy.get("@addInHeadButton").click();
 
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.clock();
     cy.get("@listElements")
       .eq(0)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .eq(1)
       .should("have.css", "border", `4px solid ${initial}`)
       .and("contain.text", "0");
     cy.get("@listElements")
       .eq(0)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .eq(0)
       .should("contain.text", "1111")
       .and("have.css", "border", `4px solid ${changing}`);
 
     cy.tick(500);
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements")
       .eq(0)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .should("have.css", "border", `4px solid ${modified}`)
       .and("contain.text", "1111");
     cy.get("@listElements").eq(0).should("contain.text", "head");
     cy.get("@listElements")
       .eq(1)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .should("have.css", "border", `4px solid ${initial}`)
       .and("not.contain.text", "1111");
     cy.get("@listElements").eq(1).should("not.contain.text", "head");
 
     cy.tick(500);
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements")
       .eq(0)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .should("have.css", "border", `4px solid ${initial}`)
       .and("contain.text", "1111");
     cy.get("@listElements").eq(0).should("contain.text", "head");
     cy.get("@listElements")
       .eq(1)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .should("have.css", "border", `4px solid ${initial}`)
       .and("not.contain.text", "1111");
     cy.get("@listElements").eq(1).should("not.contain.text", "head");
   });
 
   it("should add an element in tail", () => {
-    cy.get(".text_type_input").eq(0).as("input");
-    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-      .eq(1)
-      .as("addInTailButton");
+    cy.get(inputSelector).eq(0).as("input");
+    cy.get(listPageButtonsSelector).eq(1).as("addInTailButton");
 
     cy.clock();
     cy.get("@input").type("1111");
     cy.get("@addInTailButton").click();
 
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
 
     cy.get("@listElements")
       .eq(3)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .eq(1)
       .should("have.css", "border", `4px solid ${initial}`)
       .and("contain.text", "1");
     cy.get("@listElements")
       .eq(3)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .eq(0)
       .should("contain.text", "1111")
       .and("have.css", "border", `4px solid ${changing}`);
 
     cy.tick(500);
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements")
       .eq(3)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .should("have.css", "border", `4px solid ${initial}`)
       .and("not.contain.text", "1111");
     cy.get("@listElements").eq(3).should("not.contain.text", "tail");
     cy.get("@listElements")
       .eq(4)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .should("have.css", "border", `4px solid ${modified}`)
       .and("contain.text", "1111");
     cy.get("@listElements").eq(4).should("contain.text", "tail");
 
     cy.tick(500);
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements")
       .eq(3)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .should("have.css", "border", `4px solid ${initial}`)
       .and("not.contain.text", "1111");
     cy.get("@listElements").eq(3).should("not.contain.text", "tail");
     cy.get("@listElements")
       .eq(4)
-      .find("[class^=circle_circle__]")
+      .find(outlineClass)
       .should("have.css", "border", `4px solid ${initial}`)
       .and("contain.text", "1111");
     cy.get("@listElements").eq(4).should("contain.text", "tail");
@@ -223,21 +207,17 @@ describe("List-page :", () => {
 
   it("should add an element by index", () => {
     cy.clock();
-    cy.get(".text_type_input").eq(0).as("input");
-    cy.get(".text_type_input").eq(1).as("indexInput");
-    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-      .eq(4)
-      .as("addByIndexButton");
+    cy.get(inputSelector).eq(0).as("input");
+    cy.get(inputSelector).eq(1).as("indexInput");
+    cy.get(listPageButtonsSelector).eq(4).as("addByIndexButton");
     cy.get("@input").type("1111");
     cy.get("@indexInput").type("2");
     cy.get("@addByIndexButton").click();
 
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
 
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element).should("not.contain", "head");
@@ -289,7 +269,7 @@ describe("List-page :", () => {
 
     cy.tick(500);
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element).should("contain", "head");
@@ -336,7 +316,7 @@ describe("List-page :", () => {
 
     cy.tick(500);
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
@@ -400,7 +380,7 @@ describe("List-page :", () => {
 
     cy.tick(500);
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
@@ -465,17 +445,13 @@ describe("List-page :", () => {
 
   it("should delete an element from head", () => {
     cy.clock();
-    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-      .eq(2)
-      .as("deleteFromHeadButton");
+    cy.get(listPageButtonsSelector).eq(2).as("deleteFromHeadButton");
     cy.get("@deleteFromHeadButton").click();
 
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
 
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
@@ -526,11 +502,9 @@ describe("List-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
@@ -568,17 +542,13 @@ describe("List-page :", () => {
 
   it("should delete an element from tail", () => {
     cy.clock();
-    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-      .eq(3)
-      .as("deleteFromTailButton");
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listPageButtonsSelector).eq(3).as("deleteFromTailButton");
+    cy.get(listElemenstSelector).as("listElements");
 
     cy.get("@deleteFromTailButton").click();
 
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
@@ -629,11 +599,9 @@ describe("List-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
@@ -671,19 +639,15 @@ describe("List-page :", () => {
 
   it("should delete an element by index", () => {
     cy.clock();
-    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-      .eq(5)
-      .as("deleteByIndexButton");
-    cy.get(".text_type_input").eq(1).as("indexInput");
+    cy.get(listPageButtonsSelector).eq(5).as("deleteByIndexButton");
+    cy.get(inputSelector).eq(1).as("indexInput");
 
     cy.get("@indexInput").type("2");
     cy.get("@deleteByIndexButton").click();
 
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
@@ -729,11 +693,9 @@ describe("List-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
@@ -779,11 +741,9 @@ describe("List-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
@@ -834,11 +794,9 @@ describe("List-page :", () => {
     });
 
     cy.tick(500);
-    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-      "listElements"
-    );
+    cy.get(listElemenstSelector).as("listElements");
     cy.get("@listElements").each(($element, index) => {
-      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      cy.wrap($element).find(outlineClass).as("outlines");
       switch (index) {
         case 0: {
           cy.wrap($element)
