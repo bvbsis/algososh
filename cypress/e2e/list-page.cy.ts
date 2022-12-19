@@ -463,245 +463,414 @@ describe("List-page :", () => {
     });
   });
 
-  // it("should delete an element from head", () => {
-  //   cy.clock();
-  //   cy.get(".text_type_input").eq(0).as("input");
-  //   cy.get(".text_type_input").eq(1).as("indexInput");
-  //   cy.get("[class^=list-page_inputContainer__] > .text_type_button")
-  //     .eq(4)
-  //     .as("addByIndexButton");
-  //   cy.get("@input").type("1111");
-  //   cy.get("@indexInput").type("2");
-  //   cy.get("@addByIndexButton").click();
+  it("should delete an element from head", () => {
+    cy.clock();
+    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
+      .eq(2)
+      .as("deleteFromHeadButton");
+    cy.get("@deleteFromHeadButton").click();
 
-  //   cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
-  //     "listElements"
-  //   );
+    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
+      "listElements"
+    );
 
-  //   cy.get("@listElements").each(($element, index) => {
-  //     cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
-  //     switch (index) {
-  //       case 0: {
-  //         cy.wrap($element).should("not.contain", "head");
-  //         cy.get("@outlines")
-  //           .eq(0)
-  //           .should("contain", "1111")
-  //           .and("have.css", "border", `4px solid ${changing}`);
-  //         cy.get("@outlines")
-  //           .eq(1)
-  //           .should("not.contain", "1111")
-  //           .and("have.css", "border", `4px solid ${initial}`);
-  //         break;
-  //       }
-  //       case 1: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //       case 2: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //       case 3: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //     }
-  //   });
+    cy.get("@listElements").each(($element, index) => {
+      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      switch (index) {
+        case 0: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("contain.html", "circle_content__");
+          cy.get("@outlines")
+            .eq(0)
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "");
+          cy.get("@outlines")
+            .eq(1)
+            .should("have.css", "border", `4px solid ${changing}`)
+            .and("contain.text", "0");
+          break;
+        }
+        case 1: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "34");
+          break;
+        }
+        case 2: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "8");
+          break;
+        }
+        case 3: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "1");
+          break;
+        }
+      }
+    });
 
-  //   cy.tick(500);
-  //   cy.get("@listElements").each(($element, index) => {
-  //     cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
-  //     switch (index) {
-  //       case 0: {
-  //         cy.wrap($element).should("contain", "head");
-  //         cy.get("@outlines")
-  //           .should("not.contain", "1111")
-  //           .and("have.css", "border", `4px solid ${changing}`);
-  //         break;
-  //       }
-  //       case 1: {
-  //         cy.wrap($element).should("not.contain", "head");
-  //         cy.get("@outlines")
-  //           .eq(0)
-  //           .should("contain", "1111")
-  //           .and("have.css", "border", `4px solid ${changing}`);
-  //         cy.get("@outlines")
-  //           .eq(1)
-  //           .should("have.css", "border", `4px solid ${initial}`);
-  //         break;
-  //       }
-  //       case 2: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //       case 3: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //     }
-  //   });
+    cy.tick(500);
+    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
+      "listElements"
+    );
+    cy.get("@listElements").each(($element, index) => {
+      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      switch (index) {
+        case 0: {
+          cy.wrap($element)
+            .should("contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "34");
+          break;
+        }
+        case 1: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "8");
+          break;
+        }
+        case 2: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "1");
+          break;
+        }
+      }
+    });
+  });
 
-  //   cy.tick(500);
-  //   cy.get("@listElements").each(($element, index) => {
-  //     cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
-  //     switch (index) {
-  //       case 0: {
-  //         cy.wrap($element)
-  //           .should("contain", "head")
-  //           .and("not.contain", "tail")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${changing}`
-  //         );
-  //         break;
-  //       }
-  //       case 1: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "tail")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${changing}`
-  //         );
-  //         break;
-  //       }
-  //       case 2: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "tail");
-  //         cy.get("@outlines")
-  //           .should("have.css", "border", `4px solid ${modified}`)
-  //           .and("contain", "1111");
-  //         break;
-  //       }
-  //       case 3: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "tail")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //       case 4: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("contain", "tail")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //     }
-  //   });
+  it("should delete an element from tail", () => {
+    cy.clock();
+    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
+      .eq(3)
+      .as("deleteFromTailButton");
+    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
+      "listElements"
+    );
 
-  //   cy.tick(500);
-  //   cy.get("@listElements").each(($element, index) => {
-  //     cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
-  //     switch (index) {
-  //       case 0: {
-  //         cy.wrap($element)
-  //           .should("contain", "head")
-  //           .and("not.contain", "tail")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //       case 1: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "tail")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //       case 2: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "tail");
-  //         cy.get("@outlines")
-  //           .should("have.css", "border", `4px solid ${initial}`)
-  //           .and("contain", "1111");
-  //         break;
-  //       }
-  //       case 3: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("not.contain", "tail")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //       case 4: {
-  //         cy.wrap($element)
-  //           .should("not.contain", "head")
-  //           .and("contain", "tail")
-  //           .and("not.contain", "1111");
-  //         cy.get("@outlines").should(
-  //           "have.css",
-  //           "border",
-  //           `4px solid ${initial}`
-  //         );
-  //         break;
-  //       }
-  //     }
-  //   });
-  // });
+    cy.get("@deleteFromTailButton").click();
+
+    cy.get("@listElements").each(($element, index) => {
+      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      switch (index) {
+        case 0: {
+          cy.wrap($element)
+            .should("contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "0");
+          break;
+        }
+        case 1: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "34");
+          break;
+        }
+        case 2: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "8");
+          break;
+        }
+        case 3: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("contain.html", "circle_content__");
+          cy.get("@outlines")
+            .eq(0)
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "");
+          cy.get("@outlines")
+            .eq(1)
+            .should("have.css", "border", `4px solid ${changing}`)
+            .and("contain.text", "1");
+          break;
+        }
+      }
+    });
+
+    cy.tick(500);
+    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
+      "listElements"
+    );
+    cy.get("@listElements").each(($element, index) => {
+      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      switch (index) {
+        case 0: {
+          cy.wrap($element)
+            .should("contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "0");
+          break;
+        }
+        case 1: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "34");
+          break;
+        }
+        case 2: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "8");
+          break;
+        }
+      }
+    });
+  });
+
+  it("should delete an element by index", () => {
+    cy.clock();
+    cy.get("[class^=list-page_inputContainer__] > .text_type_button")
+      .eq(5)
+      .as("deleteByIndexButton");
+    cy.get(".text_type_input").eq(1).as("indexInput");
+
+    cy.get("@indexInput").type("2");
+    cy.get("@deleteByIndexButton").click();
+
+    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
+      "listElements"
+    );
+    cy.get("@listElements").each(($element, index) => {
+      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      switch (index) {
+        case 0: {
+          cy.wrap($element)
+            .should("contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${changing}`)
+            .and("contain.text", "0");
+          break;
+        }
+        case 1: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "34");
+          break;
+        }
+        case 2: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "8");
+          break;
+        }
+        case 3: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "1");
+          break;
+        }
+      }
+    });
+
+    cy.tick(500);
+    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
+      "listElements"
+    );
+    cy.get("@listElements").each(($element, index) => {
+      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      switch (index) {
+        case 0: {
+          cy.wrap($element)
+            .should("contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${changing}`)
+            .and("contain.text", "0");
+          break;
+        }
+        case 1: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${changing}`)
+            .and("contain.text", "34");
+          break;
+        }
+        case 2: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "8");
+          break;
+        }
+        case 3: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "1");
+          break;
+        }
+      }
+    });
+
+    cy.tick(500);
+    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
+      "listElements"
+    );
+    cy.get("@listElements").each(($element, index) => {
+      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      switch (index) {
+        case 0: {
+          cy.wrap($element)
+            .should("contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${changing}`)
+            .and("contain.text", "0");
+          break;
+        }
+        case 1: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${changing}`)
+            .and("contain.text", "34");
+          break;
+        }
+        case 2: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("contain.html", "circle_content__");
+          cy.get("@outlines")
+            .eq(0)
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("not.contain.text", "8");
+          cy.get("@outlines")
+            .eq(1)
+            .should("have.css", "border", `4px solid ${changing}`)
+            .and("contain.text", "8");
+          break;
+        }
+        case 3: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "1");
+          break;
+        }
+      }
+    });
+
+    cy.tick(500);
+    cy.get("[class^=list-page_listContainer__] > [class^=circle_content__]").as(
+      "listElements"
+    );
+    cy.get("@listElements").each(($element, index) => {
+      cy.wrap($element).find("[class^=circle_circle__]").as("outlines");
+      switch (index) {
+        case 0: {
+          cy.wrap($element)
+            .should("contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "0");
+          break;
+        }
+        case 1: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("not.contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "34");
+          break;
+        }
+        case 2: {
+          cy.wrap($element)
+            .should("not.contain", "head")
+            .and("contain", "tail")
+            .and("not.contain.html", "circle_content__");
+          cy.get("@outlines")
+            .should("have.css", "border", `4px solid ${initial}`)
+            .and("contain.text", "1");
+          break;
+        }
+      }
+    });
+  });
 });
