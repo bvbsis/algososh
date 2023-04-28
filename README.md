@@ -10,34 +10,18 @@
 
 ## Строка
 
-<p align='center'><img width=276 src='./README_static/Untitled.png'/><img width=276 src='./README_static/Untitled%201.png'/><img width=276 src='./README_static/Untitled%202.png'/></p>
+<p align='center'><img width=276 src='./README_static/Untitled%201.png'/><img width=276 src='./README_static/Untitled%202.png'/></p>
 
 
 ## Последовательность Фибоначчи
 
-
-
-![Начальное состояние страницы](README_static/Untitled%203.png)
-
-
-![Сгенерированная последовательность](README_static/Untitled%204.png)
+<p align='center'><img width=414 src='./README_static/Untitled%204.png'/></p>
 
 
 ## Сортировка массива
 
 
-![Начальное состояние страницы](README_static/Untitled%205.png)
-
-
-
-```tsx
-// сгенерированный массив
-const arr = [25, 50, 100];
-// высоты элементов массива
-// `${(340 * arr[i]) / 100}px`
-['85px', '170px', '340px']
-```
-
+<p align='center'><img width=414 src='./README_static/Untitled%205.png'/></p>
 
 ---
 
@@ -45,47 +29,27 @@ const arr = [25, 50, 100];
 
 На этом экране вам предстоит визуализировать удаление и добавление элементов в структуру данных стек
 
-
-![Начальное состояние страницы](README_static/Untitled%206.png)
+<p align='center'><img width=414 src='./README_static/Untitled%206.png'/></p>
 
 ---
 
 ## Очередь
 
-![Начальное состояние страницы](README_static/Untitled%207.png)
+<p align='center'><img width=414 src='./README_static/Untitled%209.png'/><img width=414 src='./README_static/Untitled%210.png'/></p>
 
-
-![Очередь из трёх элементов в момент добавления](README_static/Untitled%209.png)
-
-
-![Очередь после `dequeue();`](README_static/Untitled%2010.png)
-
-нте Сircle.
 
 ---
 
 ## Связный список
 
+<p align='center'>
+  <img width=276 src='./README_static/Untitled%2011.png'/>
+  <img width=276 src='./README_static/Untitled%2012.png'/>
+  <img width=276 src='./README_static/Untitled%2013.png'/>
+  <img width=276 src='./README_static/Untitled%2015.png'/>
+  <img width=276 src='./README_static/Untitled%2016.png'/>
+  <img width=276 src='./README_static/Untitled%2017.png'/>
+</p>
 
-
-![Начальное состояние страницы](README_static/Untitled%2011.png)
-
-
-
-![Добавление в head](README_static/Untitled%2012.png)
-
-
-
-![Отображение нового элемента в head](README_static/Untitled%2013.png)
-
-
-![Добавление по индексу. Новый элемент в списке](README_static/Untitled%2015.png)
-
-
-
-![Удаление элемента под индексом 2](README_static/Untitled%2016.png)
-
-
-![Удаление элемента из tail](README_static/Untitled%2017.png)
 
 
