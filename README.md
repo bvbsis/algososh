@@ -10,7 +10,7 @@
 
 ## Строка
 
-<p align='center'><img width=333 src='./README_static/Untitled.png'/><img width=333 src='./README_static/Untitled%201.png'/><img width=333 src='./README_static/Untitled%202.png'/></p>
+<p align='center'><img width=276 src='./README_static/Untitled.png'/><img width=276 src='./README_static/Untitled%201.png'/><img width=276 src='./README_static/Untitled%202.png'/></p>
 
 
 ## Последовательность Фибоначчи
