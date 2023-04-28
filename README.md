@@ -10,7 +10,7 @@
 
 ## Строка
 
-<p align='center'><img width=276 src='./README_static/Untitled%201.png'/><img width=276 src='./README_static/Untitled%202.png'/></p>
+<p align='center'><img width=300 src='./README_static/Untitled%201.png'/><img width=300 src='./README_static/Untitled%202.png'/></p>
 
 
 ## Последовательность Фибоначчи
@@ -43,12 +43,12 @@
 ## Связный список
 
 <p align='center'>
-  <img width=276 src='./README_static/Untitled%2011.png'/>
-  <img width=276 src='./README_static/Untitled%2012.png'/>
-  <img width=276 src='./README_static/Untitled%2013.png'/>
-  <img width=276 src='./README_static/Untitled%2015.png'/>
-  <img width=276 src='./README_static/Untitled%2016.png'/>
-  <img width=276 src='./README_static/Untitled%2017.png'/>
+  <img width=300 src='./README_static/Untitled%2011.png'/>
+  <img width=300 src='./README_static/Untitled%2012.png'/>
+  <img width=300 src='./README_static/Untitled%2013.png'/>
+  <img width=300 src='./README_static/Untitled%2015.png'/>
+  <img width=300 src='./README_static/Untitled%2016.png'/>
+  <img width=300 src='./README_static/Untitled%2017.png'/>
 </p>
 
 
